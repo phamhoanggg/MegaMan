@@ -16,19 +16,31 @@ public class Player : MonoBehaviour
     public float atkSpeed;
     public float fireCD;
     public float dmg;
-    public float hp;
-    public float mana;
+    public float maxHp;
+    public float maxMana;
+    public float manaCost;
 
     private float atkCD;
     private float currentFireCD;
     private bool isOnGround;
     private int direct;
+    private float currentHp;
+    private float currentMana;
     void Start()
     {
         atkCD = 0;
         direct = 1;
+        currentHp = maxHp;
+        currentMana = maxMana;
     }
 
+    private void FixedUpdate()
+    {
+        if (currentMana < maxMana)
+        {
+            currentMana += 0.1f;
+        }
+    }
     void Update()
     {
         if (Input.GetKey(KeyCode.D))
@@ -78,9 +90,10 @@ public class Player : MonoBehaviour
 
         if (currentFireCD <= 0)
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E) && currentMana >= manaCost)
             {
                 Fire();
+                currentMana -= manaCost;
                 currentFireCD = fireCD;
             }
         }
