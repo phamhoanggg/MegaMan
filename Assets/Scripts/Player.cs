@@ -45,16 +45,24 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.D))
         {
-            transform.position += new Vector3(speed, 0);
+            //transform.position += new Vector3(speed, 0);
+            rb2d.velocity = new Vector2(speed, rb2d.velocity.y);
             transform.eulerAngles = new Vector3(0, 0, 0);
             direct = 1;
         }
 
         if (Input.GetKey(KeyCode.A))
         {
-            transform.position -= new Vector3(speed, 0);
+            //transform.position -= new Vector3(speed, 0);
+            rb2d.velocity = new Vector2(-speed, rb2d.velocity.y);
+
             transform.eulerAngles = new Vector3(0, 180, 0);
             direct = -1;
+        }
+
+        if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.A))
+        {
+            rb2d.velocity = new Vector2(0, rb2d.velocity.y);
         }
 
         if (Physics2D.Raycast(transform.position, Vector2.down, 1.1f, groundLayer))
